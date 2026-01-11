@@ -1,0 +1,133 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: var(--bg-darker);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-header {
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items:  center;
+}
+
+.header-content h1 {
+  color: var(--primary-color);
+  margin-bottom: 4px;
+}
+
+.header-content p {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.btn-logout {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-logout:hover {
+  background: #c85a64;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 40px;
+}
+
+.create-session {
+  background: var(--bg-dark);
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 40px;
+}
+
+.create-session h2 {
+  color: var(--text-light);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.create-session form {
+  display:  flex;
+  gap: 10px;
+}
+
+.create-session input {
+  flex:  1;
+  max-width: 400px;
+}
+
+.sessions-list h2 {
+  color: var(--text-light);
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.session-card {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.session-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 20px rgba(97, 175, 239, 0.2);
+}
+
+.session-card h3 {
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.session-id,
+.session-date {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom:  4px;
+  font-family: 'Courier New', monospace;
+}
+
+.session-actions {
+  display: flex;
+  gap: 10px;
+  margin-top:  16px;
+}
+
+.btn-open {
+  flex: 1;
+  background: var(--primary-color);
+  color: var(--bg-dark);
+}
+
+.btn-delete {
+  flex: 1;
+  background:  var(--danger-color);
+  color: white;
+}
+
+.btn-open:hover {
+  background: #5a9fd4;
+}
+
+.btn-delete:hover {
+  background: #c85a64;
+}
+
+.empty-message {
+  color: var(--text-muted);
+  padding: 20px;
+  text-align: center;
+}
