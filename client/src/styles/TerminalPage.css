@@ -1,0 +1,50 @@
+. terminal-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-darker);
+}
+
+.terminal-header {
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-color);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-left h2 {
+  color:  var(--primary-color);
+  font-size: 18px;
+}
+
+.status {
+  font-size: 14px;
+  color: var(--success-color);
+}
+
+.status.disconnected {
+  color: var(--danger-color);
+}
+
+.btn-back {
+  background: var(--secondary-color);
+  color: var(--bg-dark);
+}
+
+.btn-back:hover {
+  background: #4da8b4;
+}
+
+.terminal {
+  flex: 1;
+  overflow: hidden;
+  padding: 20px;
+}
