@@ -1,0 +1,434 @@
+openapi: 3.0.0
+info:
+  title: WebTermux OMNI v.33 API
+  description: Advanced web-based terminal emulator with multi-session support
+  version: 33.0.0
+  contact:
+    name: WebTermux Team
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+  - url: https://api.webtermux.com/api
+    description: Production server
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique user identifier
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          description: Unique username
+        email:
+          type: string
+          format: email
+          description: User email address
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+      required:
+        - id
+        - username
+        - email
+
+    AuthToken:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT authentication token
+        username:
+          type: string
+          description: Username of authenticated user
+        expiresIn:
+          type: string
+          description: Token expiration time
+      required:
+        - token
+        - username
+
+    TerminalSession:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Session unique identifier
+        userId:
+          type: integer
+          description: Owner user ID
+        name:
+          type: string
+          description: Session name
+        shellType:
+          type: string
+          enum: [bash, sh, zsh, fish]
+          description: Shell type for the session
+        rows:
+          type: integer
+          description: Terminal row count
+        cols:
+          type: integer
+          description: Terminal column count
+        isActive:
+          type: boolean
+          description: Session active status
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - userId
+        - name
+        - shellType
+
+    CommandHistory:
+      type: object
+      properties:
+        id:
+          type: integer
+        sessionId:
+          type: string
+          format: uuid
+        command:
+          type: string
+          description: Executed command
+        output:
+          type: string
+          description: Command output
+        exitCode:
+          type: integer
+          description: Command exit code
+        executedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - sessionId
+        - command
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+        details:
+          type: object
+          description: Additional error details
+      required:
+        - error
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      operationId: registerUser
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                password:
+                  type: string
+                  minLength: 6
+                email:
+                  type: string
+                  format: email
+              required:
+                - username
+                - password
+                - email
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '400':
+          description: Invalid input or user already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      summary: Login user
+      operationId: loginUser
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      summary: Logout user
+      operationId: logoutUser
+      tags:
+        - Authentication
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+  /terminal/sessions:
+    get:
+      summary: Get all terminal sessions for current user
+      operationId: getTerminalSessions
+      tags:
+        - Terminal
+      responses:
+        '200':
+          description: List of terminal sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerminalSession'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Create a new terminal session
+      operationId: createTerminalSession
+      tags:
+        - Terminal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Session name
+                shellType:
+                  type: string
+                  enum: [bash, sh, zsh, fish]
+                  default: bash
+                rows:
+                  type: integer
+                  default: 24
+                cols:
+                  type: integer
+                  default: 80
+              required:
+                - name
+      responses:
+        '201':
+          description: Terminal session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminalSession'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /terminal/sessions/{sessionId}:
+    get:
+      summary: Get terminal session details
+      operationId: getTerminalSession
+      tags:
+        - Terminal
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Terminal session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminalSession'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a terminal session
+      operationId: deleteTerminalSession
+      tags:
+        - Terminal
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Session deleted successfully
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /terminal/sessions/{sessionId}/history:
+    get:
+      summary: Get command history for a session
+      operationId: getSessionHistory
+      tags:
+        - Terminal
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Command history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommandHistory'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: healthCheck
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+                  timestamp:
+                    type: string
+                    format: date-time
