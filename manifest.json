@@ -1,0 +1,9 @@
+{
+  "name": "WEBTERMUX OMNI V33",
+  "short_name": "OmniTerm",
+  "start_url": "/terminal.html",
+  "display": "standalone",
+  "background_color": "#191622",
+  "theme_color": "#191622",
+  "icons": [{ "src": "/logo192.png", "sizes": "192x192", "type": "image/png" }]
+}
