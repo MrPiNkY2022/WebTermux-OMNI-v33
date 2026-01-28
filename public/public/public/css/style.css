@@ -1,0 +1,3 @@
+body { background: #191622; margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; }
+#terminal { flex: 1; }
+#stats { background: #201B2D; color: #E1E1E6; padding: 8px; font-family: monospace; }
