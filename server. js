@@ -82,10 +82,10 @@ io.on('connection', socket => {
     socket.emit('stats', { load, mem, uptime });
   }, 2000);
 
-  socket.on('disconnect', () => {
-    clearInterval(monitor);
-    ptyProcess.kill();
-  });
+    socket.on('termux-camera', () => {
+  exec('termux-camera-photo -q photo.jpg', () => socket.emit('photo-ready'));
 });
+    socket.on('termux-location', () => exec('termux-location', (err, stdout) => socket.emit('location', stdout)));
+// Add TTS, clipboard, sensors similarly
 
 server.listen(config.port, () => console.log(`WEBTERMUX OMNI V33 running on port ${config.port}`));
