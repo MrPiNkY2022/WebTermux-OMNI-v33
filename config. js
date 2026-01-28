@@ -1,0 +1,8 @@
+
+### config.json
+```json
+{
+  "port": 3000,
+  "password": "CHANGE_ME_NOW_2026",
+  "sessionSecret": "generate-a-super-long-random-string-here-OmniV33"
+}
