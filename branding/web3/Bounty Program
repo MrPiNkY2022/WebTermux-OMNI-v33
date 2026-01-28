@@ -1,0 +1,106 @@
+We reward meaningful contributions with OMNI tokens (once the token is live on mainnet) or ETH/USDC via GitHub Sponsors / direct transfer. Bounties are claimed on a first-come, first-approved basis.Current active bounties (amounts are starting offers – negotiable based on quality):#
+
+Bounty Task
+
+Difficulty
+
+Reward (approx.)
+
+Status
+
+1. Full mobile-optimized React Native wrapper (Expo) so the web terminal runs as a native Android app
+
+   -Hard
+
+   -500–1000 OMNI + 0.5 ETH
+
+   -Open
+
+2. Add 2FA (TOTP) + biometric login to the web terminal auth
+
+  -Medium
+
+  -300–600 OMNI
+
+  -Open
+
+3. Implement real-time collaborative editing (like VS Code Live Share) with conflict resolution
+
+  -Hard
+
+  -800–1500 OMNI
+
+  -Open
+
+4. Integrate Chainlink Price Feeds into StakingRewards for dynamic reward rates
+
+  -Medium
+
+  -400–800 OMNI
+
+  -Open
+
+5. Build a complete NFT metadata generator + IPFS uploader tool in the web terminal
+
+  -Medium
+
+  -300–700 OMNI
+
+  -Open
+
+6. Add a built-in code editor (Monaco Editor) with syntax highlighting and auto-complete for Solidity/JS
+
+  -Hard
+
+  -600–1200 OMNI
+
+  -Open
+
+7. Create 5+ high-quality plugins (e.g., one-click GitHub deploy, blockchain explorers, AI code review)
+
+  -Easy–Medium
+
+  -100–300 OMNI each
+
+  -Open
+
+8. Security audit of all smart contracts (using Slither/Mythril + manual review) + fix findings
+
+  -Expert
+
+  -1000–3000 OMNI + bonus
+
+  -Open
+
+9. Add dark/light mode toggle with more themes (including community-submitted)
+
+  -Easy
+
+  -200–400 OMNI
+
+  -Open
+
+10. Translate the frontend/dashboard into Spanish, Arabic, and Hindi
+
+  -Easy
+
+  -200 OMNI per language
+
+  -Open
+
+
+To claim a bounty:Comment on the relevant issue (or open one with "[Bounty] Task Name").
+
+Get confirmation from @BrandonMcMurr11.
+
+Submit PR.
+
+After merge and verification, reward is sent.
+
+
+
+New bounty ideas? Open an issue with the label bounty-proposal.
+
+
+
+
